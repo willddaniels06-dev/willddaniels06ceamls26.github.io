@@ -1,0 +1,15 @@
+Fix asset + preview-link paths for project-page deploys
+The CI workflow now reads actions/configure-pages's `base_path` output
+and passes it as `--baseurl` to every Jekyll build. This makes the same
+codebase work whether the repo deploys as a USER page (foo.github.io,
+base_path is "") or as a PROJECT page (foo.github.io/repo, base_path
+is "/repo"). The five build invocations are:
+
+  Live:     --baseurl "$BASE_PATH"
+  Preview:  --baseurl "$BASE_PATH/_preview/<theme>"
+
+The preview-switcher computes the deploy root from site.baseurl by
+stripping any "/_preview/<theme>" suffix, so cross-preview links and
+the "back to my site" link resolve correctly under either deploy.
+
+Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>
